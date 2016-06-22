@@ -1,66 +1,75 @@
-// Data for the markers consisting of a name, a LatLng and a zIndex for the
-// order in which these markers should display on top of each other.
+// United Way Day of Action 2016
+
+// Initiatlize Map function that runs on API load
 
 function initMap() {
-  var myLatLng = {lat: 38.8119040, lng: -77.0404250};
+  var myLatLng = {lat: 20, lng: -15};
 
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 3,
+    zoom: 2,
     center: myLatLng,
     mapTypeControl: false,
     streetViewControl: false,
-    styles: [
-  {
-    "featureType": "water",
-    "stylers": [
-      { "color": "#7c81b8" }
-    ]
-  },{
-    "featureType": "landscape.natural",
-    "stylers": [
-      { "color": "#f0e6c8" }
-    ]
-  },{
-    "featureType": "poi.park",
-    "stylers": [
-      { "color": "#e6d7aa" }
-    ]
-  },{
-  }
-]
+    styles: [ // styles from Map Wizard
+	  {
+	    "featureType": "water",
+	    "stylers": [
+	      { "color": "#7c81b8" }
+	    ]
+	  },{
+	    "featureType": "landscape.natural",
+	    "stylers": [
+	      { "color": "#f0e6c8" }
+	    ]
+	  },{
+	    "featureType": "poi.park",
+	    "stylers": [
+	      { "color": "#e6d7aa" }
+	    ]
+	  }
+	]
   });
 
-
+var prev_infowindow = false; //initialize empty previous window
+    
 function createMarker(lat,long,title,markertext){
 		var loc = new google.maps.LatLng(lat, long);
-		function pinSymbol(color, outline) {
-    			return {
-        			path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
-        			fillColor: color,
-        			fillOpacity: 1,
-        			strokeColor: outline,
-        			strokeWeight: 1,
-        			scale: 1,
-   					};
-			}
+		var circle ={
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: '#fe230a',
+            fillOpacity: .6,
+            scale: 7,
+            strokeColor: '#fff',
+            strokeWeight: 1
+        };
 		var marker = new google.maps.Marker({
 				position: loc,
 				map: map,
 				title: title,
-                icon: pinSymbol("#fe230a", "#000")
-  			});	
+                icon: circle
+  		});
+    
 
 		var infowindow = new google.maps.InfoWindow({
-				content: '<span style="font-family: FF Meta W01, Helvetica Neue, Helvetica,Arial,sans-serif; color: #4F4F4F">' + markertext + '</span>'
-			});
-		google.maps.event.addListener(marker, 'click', function() {infowindow.open(map,marker);});
+				content: '<span style="font-family: FF Meta W01, Helvetica Neue, Helvetica,Arial,sans-serif; color: #4F4F4F">' 
+					+ markertext + '</span>'
+		});
+
+		google.maps.event.addListener(marker, 'click', function() {
+            if( prev_infowindow ) {
+               prev_infowindow.close(); //if previous window exists, close it
+            }
+            prev_infowindow = infowindow; // set previous window to current window
+            infowindow.open(map,marker); // open the window
+        });
 	}
 	
-
 function placeMarkers()
 		{
 	 
 			createMarker(-34.600816500, -58.390649000, "Argentina", "Fundacion Caminando Juntos<Br />Ciudad de Buenos Aires Buenos Aires Argentina<br />URL: <a href='http://www.facebook.com/caminandojuntos' target='_blank'>www.facebook.com/caminandojuntos</a><br/>6° Edición del Voluntariado Gerencial. Llevaremos adelante una jornada masiva de re-acondicionamiento edilicio en una Escuela primaria o secundaria. Se estarán realizando actividades de pintura de espacios, creación de mobiliario y generación de materiales didácticos, entre otros. Serán invitados los Ceo´s y niveles genrenciales de las empresas socias, junto a sus familias.");
+	 
+			createMarker(-33.868819700, 151.209295500, "Australia", "United Way Australia, Ltd.<Br />Sydney New South Wales Australia<br />URL: <a href='http://unitedway.com.au' target='_blank'>unitedway.com.au</a><br/>We are hosting 5 activities over the month with a focus on early literacy and high school transition to work. Volunteers from across the country will be supporting various projects including Community Reading days, high school mentoring workshops and Industry Tours - were high school students visit a range of businesses to learn about possible career paths post high school.");
 	 
 			createMarker(-33.415200000, -70.605985500, "Chile", "United Way Chile<Br />Santiago Santiago Chile<br />URL: <a href='http://www.facebook.com/unitedwaychile/?ref=hl' target='_blank'>www.facebook.com/unitedwaychile/?ref=hl</a><br/>We will execute various educational activities with children living in contexts of vulnerability. We will execute the activities will the help of several volunteers and the support of an infant school´s teaching team.");
 	 
@@ -78,6 +87,8 @@ function placeMarkers()
 	 
 			createMarker(12.971598700, 77.594562700, "India", "United Way Bengaluru<Br />Bangalore Karnataka India<br />URL: <a href='http://www.unitedwaybengaluru.org' target='_blank'>www.unitedwaybengaluru.org</a><br/>Mobilising citizens participation in environment conservation, by going around in cycles and picking up plastic covers along with cleaning up a school/ college premises in Kolar district near Bangalore");
 	 
+			createMarker(13.040502600, 80.233692400, "India", "United Way of Chennai<Br />T.Nagar - Chennai Tamilnadu India<br />URL: N/A<br/>Mural Painting in Government schools in association with Cognizant Outreach volunteers. NGO partners are Teach for India and YRG Care");
+	 
 			createMarker(14.072275100, -87.192136000, "Honduras", "Fundacion Fondo Unido Honduras United Way<Br />Tegucigalpa Francisco Morazan Honduras<br />URL: <a href='http://www.unitedway.org.hn ' target='_blank'>www.unitedway.org.hn </a><br/>\n\n\n\nplayground construction in the Escuela Republica de Francia, where we will benefit more than 900 children with the participation of more than 100 volunteers from our partner. \n");
 	 
 			createMarker(18.981045100, 72.826757900, "India", "United Way of India<Br />Mumbai Maharashtra India<br />URL: <a href='http://www.unitedwaymumbai.org/' target='_blank'>www.unitedwaymumbai.org/</a>");
@@ -92,6 +103,8 @@ function placeMarkers()
 	 
 			createMarker(25.751946000, -80.213784700, "United States of America", "United Way of Miami-Dade<Br />Miami FL <br />URL: <a href='http://www.facebook.com/UnitedWayMiami/?fref=ts' target='_blank'>www.facebook.com/UnitedWayMiami/?fref=ts</a><br/>United Way of Miami-Dade\'s Day of Action will be a celebration of healthy fun for the whole family, Family Field Day, to (1) reduce food insecurity by raising awareness about Summer Break Spot, (2) educate families about making healthy choices about nutrition and physical activity, (3) grow volunteerism among young families with children, targeting adults under 40, and (4) increase awareness about local community resources. \n");
 	 
+			createMarker(26.105734000, -80.142768300, "United States of America", "United Way of Broward County<Br />Fort Lauderdale FL <br />URL: <a href='http://www.facebook.com/unitedwaybc' target='_blank'>www.facebook.com/unitedwaybc</a><br/>United Way of Broward County will help spread the work about summer meal sites for children under 18.  We will promote via social media.  Twitter and facebook.");
+	 
 			createMarker(26.191409600, -97.694837100, "United States of America", "United Way of Northern Cameron County<Br />Harlingen TX <br />URL: Facebook: United Way of Northern Cameron County<br/>We host an event in our local park, \"A Day in the Park\" where we have reading stations, book give aways, coloring stations, sack races &amp; obstacle courses. Every child in attendance receives a free book. This is an annual event for us and we usually have 500-600 kids in attendance. This year our Mayor, a City Commissioner, Fire Chief, Police Chief and Superintendent of Schools will host a joint reading station.");
 	 
 			createMarker(26.515848800, -81.930221100, "United States of America", "United Way of Lee County, Inc.<Br />Fort Myers FL <br />URL: <a href='http://www.unitedwaylee.org' target='_blank'>www.unitedwaylee.org</a><br/>Summer literacy event at one of our local malls. Reading is FUNtastic. \nWe will have some of our ReadingPal volunteers reading, and a summer beach activity area, book swap and more. Children will also receive a book to take home.");
@@ -104,9 +117,11 @@ function placeMarkers()
 	 
 			createMarker(27.945205000, -82.531455900, "United States of America", "United Way Suncoast (Tampa Bay Area)<Br />Tampa FL <br />URL: <a href='http://www.unitedwaysuncoast.org/' target='_blank'>www.unitedwaysuncoast.org/</a><br/>Do a backpack stuff with UPS and have a few trucks deliver the backpacks to select summer care sites doing a \"touch a truck\" where the kids can walk through the truck and pick up their back pack.");
 	 
-			createMarker(27.962335300, -81.876888100, "United States of America", "United Way of Central Florida<Br />Highland City FL <br />URL: <a href='http://uwcf.org' target='_blank'>uwcf.org</a><br/>Children\'s event. Book Give-away. Hands on activities. Read to a dog.");
+			createMarker(27.962335300, -81.876888100, "United States of America", "United Way of Central Florida<Br />Highland City FL <br />URL: <a href='http://uwcf.org' target='_blank'>uwcf.org</a><br/>Children\'s event. Book Give-away. We need volunteers to support hands-on-activities at this event with the theme:  Read to a dog!  Twitter @uwcf    #ReadToADog\n\nDay of Caring earlier in April hosted almost 600 volunteers, 49 participating organizations and 57 projects to improve our Central FL community.");
 	 
 			createMarker(28.374025900, -80.741295600, "United States of America", "United Way of Brevard County<Br />Cocoa FL <br />URL: <a href='http://www.uwbrevard.org' target='_blank'>www.uwbrevard.org</a><br/>United Way of Brevard, through it\'s Feed and Read Program will provide more than 4,000 children with 15,000 food packs, 10,000 books, fresh fruits and vegetables and mentoring sessions throughout the summer break.");
+	 
+			createMarker(28.486880200, -82.602018300, "United States of America", "United Way of Hernando County, Inc.<Br />Spring Hill FL <br />URL: <a href='http://www.UnitedWayHernando.org/born-learning' target='_blank'>www.UnitedWayHernando.org/born-learning</a><br/>Our United Way plans to install two Born Learning Trails and in local parks in Hernando County. We are incorporating our Workplace Campaign partners for sponsorships and rallying volunteers.\n\nWe hope to make this a family fun day event and encourage families to bring their little ones out on Day of Action to have fun with the newly installed trails and stay active together!\n\nBBQ and a radio spot are currently in the works.");
 	 
 			createMarker(28.573228500, -81.409524900, "United States of America", "Heart of Florida United Way<Br />Orlando FL <br />URL: <a href='http://www.hfuw.org' target='_blank'>www.hfuw.org</a><br/>Heart of Florida United Way\'s Day of Action is focused on addressing summer reading loss in Orange, Osceola and Seminole counties. By providing low-income students access to books, the Heart of Florida United Way hopes to encourage reading and enhance literacy over the summer months by engaging volunteers in fun, interactive literacy games and activities with youth.");
 	 
@@ -114,11 +129,11 @@ function placeMarkers()
 	 
 			createMarker(28.898580300, -82.570765700, "United States of America", "United Way of Citrus County<Br />Crystal River FL <br />URL: <a href='http://www.citrusunitedway.org' target='_blank'>www.citrusunitedway.org</a><br/>We are asking local businesses to supply 1,100 of a certain school supply, for instance 1,100 bottles of glue from XYZ Corp. Our plan is compile enough supplies to prepare 1,100 backpacks for local K-3rd needy students. We will assemble the backpacks on June 21 as the the actual event.");
 	 
-			createMarker(29.136669400, -81.137435700, "United States of America", "United Way of Volusia-Flagler Co., Inc.<Br />Daytona Beach FL <br />URL: <a href='http://www.unitedwayvfc.org/' target='_blank'>www.unitedwayvfc.org/</a><br/>I will update this section as projects are submitted and adopted.");
+			createMarker(29.136669400, -81.137435700, "United States of America", "United Way of Volusia-Flagler Co., Inc.<Br />Daytona Beach FL <br />URL: <a href='http://www.unitedwayvfc.org/' target='_blank'>www.unitedwayvfc.org/</a><br/>We have 18 projects that were adopted for Day of Action 2016. This will engage over 450 volunteers in the community and 14 organizations or businesses. The projects vary from beautifications of non-profit grounds, food and teddy bear drives, and feeding the homeless.");
 	 
 			createMarker(29.210222900, -95.439073600, "United States of America", "United Way of Brazoria County<Br />Angleton TX <br />URL: <a href='http://www.uwbc.org' target='_blank'>www.uwbc.org</a><br/>We are still in the process of deciding what our focus for Day of Action 2016 will be.");
 	 
-			createMarker(29.416882900, -98.488078300, "United States of America", "United Way of San Antonio and Bexar County<Br />San Antonio TX <br />URL: <a href='http://www.unitedwaysatx.org, @unitedwaysa, ' target='_blank'>www.unitedwaysatx.org, @unitedwaysa, </a><br/>We will be hosting our 2nd Annual Shoebox Project. On Day of Action, we plan to distribute 7500 shoeboxes filled with toiletries for agencies in San Antonio and Bexar County that support veterans, children, families, and other vulnerable populations.");
+			createMarker(29.416882900, -98.488078300, "United States of America", "United Way of San Antonio and Bexar County<Br />San Antonio TX <br />URL: <a href='http://www.unitedwaysatx.org, @unitedwaysa,' target='_blank'>www.unitedwaysatx.org, @unitedwaysa,</a><br/>We will be hosting our 2nd Annual Shoebox Project. On Day of Action, we plan to distribute 7500 shoeboxes filled with toiletries for agencies in San Antonio and Bexar County that support veterans, children, families, and other vulnerable populations.");
 	 
 			createMarker(29.884343300, -97.941941400, "United States of America", "United Way of Hays County<Br />San Marcos TX <br />URL: <a href='http://unitedwayhaysco.org facebook.com/UnitedWayofHaysCounty twitter: twitter.com/UWHaysCo' target='_blank'>unitedwayhaysco.org facebook.com/UnitedWayofHaysCounty twitter: twitter.com/UWHaysCo</a><br/>We will be partnering with our flood rebuilding partner to rebuild flooded homes affected by the 2015 Memorial Day and All Saints floods. Our goal is to have 100 or more volunteers working on finishing the rebuild of 1 flooded home during a 24-hour period. Or we will be putting 100 volunteers to work at 8 homesites for an 8-hour period.");
 	 
@@ -138,11 +153,17 @@ function placeMarkers()
 	 
 			createMarker(30.616449200, -96.299632500, "United States of America", "United Way of the Brazos Valley, Inc.<Br />College Station TX <br />URL: <a href='http://www.uwbv.org/day-action-2016' target='_blank'>www.uwbv.org/day-action-2016</a><br/>Volunteers will collect baby basics (books, toys, toiletries) leading up to Day of Action. They will package these baby basics into baby bundles to distribute to local hospitals for new moms.");
 	 
+			createMarker(31.172056900, -81.473804700, "United States of America", "United Way of Coastal Georgia, Inc.<Br />Brunswick GA <br />URL: <a href='http://www.uwcga.org' target='_blank'>www.uwcga.org</a><br/>Volunteers and staff from United Way of Coastal Georgia will be painting the Visitation Center for CASA Glynn, the Amity House, and the Hope House.");
+	 
 			createMarker(31.178652900, -83.786747000, "United States of America", "United Way of Colquitt County<Br />Moultrie GA <br />URL: <a href='http://www.facebook.com/unitedwaycolquittcounty' target='_blank'>www.facebook.com/unitedwaycolquittcounty</a><br/>We will focus on health through a Edible Science story time in the park along with physical activities throughout the park and healthy snacks for children.");
 	 
 			createMarker(31.211522500, -82.362886800, "United States of America", "United Way of South Georgia, Inc.<Br />Waycross GA <br />URL: <a href='http://www.facebook.com/UnitedWayofSouthGA/' target='_blank'>www.facebook.com/UnitedWayofSouthGA/</a><br/>We are hosting a United Way of South Georgia Men\'s Softball Tournament to raise awareness of United Way of SGA!! We are looking into doing some form of \"drive\" the day of the event.");
 	 
 			createMarker(32.225528600, -110.983291900, "United States of America", "United Way of Tucson and Southern Arizona<Br />Tucson AZ <br />URL: <a href='http://www.facebook.com/unitedwaytucson' target='_blank'>www.facebook.com/unitedwaytucson</a><br/>United Way is supporting the Tucson Veterans Serving Veterans\' Resource Fair for homeless veterans by publicizing the event, recruiting volunteers, and soliciting donations of clothing and hygiene products.");
+	 
+			createMarker(32.302762100, -106.742668000, "United States of America", "United Way of Southwest New Mexico<Br />Las Cruces NM <br />URL: <a href='http://www.uwswnm.org/dayofaction' target='_blank'>www.uwswnm.org/dayofaction</a><br/>United Way of Southwest will be teaming up with several partners to put together a Shoebox Project. We are collecting empty shoeboxes, decorating them and filling them with basic need items for our near homeless/homeless community.");
+	 
+			createMarker(32.306259600, -95.275718600, "United States of America", "United Way of Smith County<Br />Tyler TX <br />URL: <a href='http://www.unitedwaysmithcounty.org' target='_blank'>www.unitedwaysmithcounty.org</a><br/>Our 23rd annual Day of Caring.  This year we provided 500 volunteers to perform 39 projects for 33 nonprofits in Smith County.  It was a record year for the number of volunteers.");
 	 
 			createMarker(32.347799600, -90.879777100, "United States of America", "United Way of West Central Mississippi<Br />Vicksburg MS <br />URL: <a href='http://www.unitedwayvicksburg.org' target='_blank'>www.unitedwayvicksburg.org</a><br/>United Way of West Central MS is in the process of planning a HUGE One-Stop-Book-Swap that will culminate on June 21st, the national Day of Action. On this day we will feature Curious George\'s 75th Birthday party.  A book will be shared with preschool students through skits, activities, games and snacks. Local community leaders will share their passion for reading, while students enjoy the day; while bringing life to the characters in a book.");
 	 
@@ -154,7 +175,7 @@ function placeMarkers()
 	 
 			createMarker(32.491733900, -94.739817800, "United States of America", "Greater Longview United Way, Inc.<Br />Longview TX <br />URL: <a href='http://www.longviewunitedway.org/' target='_blank'>www.longviewunitedway.org/</a><br/>The agencies we serve have complied \"wish lists\" and our volunteers and supporters will gather donations from our designated drop off locations, as well as participate in community work projects.");
 	 
-			createMarker(32.720000000, -100.920000000, "United States of America", "Scurry County United Way<Br />Snyder TX <br />URL: Scurry County United Way<br/>Board is deciding");
+			createMarker(32.720000000, -100.920000000, "United States of America", "Scurry County United Way<Br />Snyder TX <br />URL: Scurry County United Way<br/>Board members will go to different agencies we support and do some hands on work and make donations to others like Food Bank, ect. Hope to get pictures of participates to make a newspaper story for our local. paper");
 	 
 			createMarker(32.780265400, -97.348071400, "United States of America", "United Way of Tarrant County<Br />Fort Worth TX <br />URL: <a href='http://unitedwaytarrant.org/' target='_blank'>unitedwaytarrant.org/</a><br/>United Way of Tarrant County will partner with Meals On Wheels Inc of Tarrant County to provide clients with box fans/window air conditioners, provide lawn clean up for identified clients, package comfort and emergency kits on-site and create client cards. Other items to be identified.");
 	 
@@ -168,6 +189,10 @@ function placeMarkers()
 	 
 			createMarker(33.207762600, -87.572616800, "United States of America", "United Way of West Alabama, Inc.<Br />Tuscaloosa AL <br />URL: <a href='http://www.facebook.com/United-Way-of-West-Alabama-27507505018/' target='_blank'>www.facebook.com/United-Way-of-West-Alabama-27507505018/</a><br/>We collect community needs projects from our partner agencies, local nonprofits and schools and pair them with volunteer teams to complete the tasks. Last year, we had more than 30 teams tackle projects ranging organizing books to building a shelter.");
 	 
+			createMarker(33.499505000, -88.407560000, "United States of America", "United Way of Lowndes County<Br />Columbus MS <br />URL: <a href='http://www.givegab.com/centers/united-way-s-volunteer-columbus-united-way-of-lowndes-county/opportunities/5k-the-united-way-03dcc219-1270-4007-9582-7ae2dcc723ad' target='_blank'>www.givegab.com/centers/united-way-s-volunteer-columbus-united-way-of-lowndes-county/opportunities/5k-the-united-way-03dcc219-1270-4007-9582-7ae2dcc723ad</a><br/>United Way of Lowndes County, Ms will host a 5-K Run, Walk, Watch race or the United Way Day of Action 2016.\nhttps://www.racesonline.com/events/5k-the-united-way");
+	 
+			createMarker(33.510747100, -112.012123000, "United States of America", "Valley of the Sun United Way<Br />Phoenix AZ <br />URL: <a href='http://vsuw.galaxydigital.com/need/detail/?need_id=192983' target='_blank'>vsuw.galaxydigital.com/need/detail/?need_id=192983</a><br/>We have asked for community members to submit Mural projects ideas for our Volunteer Impact Center. One will be selected and volunteers will paint it on the wall this day");
+	 
 			createMarker(33.515703900, -86.776822700, "United States of America", "United Way of Central Alabama, Inc.<Br />Birmingham AL <br />URL: <a href='http://www.handsonbirmingham.org/HOC__CMSContent?CMSId=a0UA000000tWMyYMAW' target='_blank'>www.handsonbirmingham.org/HOC__CMSContent?CMSId=a0UA000000tWMyYMAW</a><br/>This year UWCA will focus on two areas of community issues, such as, enviroment and education. We will work with corporations and individual volunteers at several local nonprofit agencies.");
 	 
 			createMarker(33.624330000, -97.139121500, "United States of America", "Cooke County United Way<Br />Gainesville TX <br />URL: <a href='http://www.cookeuw.org' target='_blank'>www.cookeuw.org</a><br/>Yard work &amp; small projects for the elderly, handicapped, health issues and single moms. Projects will be county wide. May also have one large work project. Event also includes collection of items needed by local non profits.");
@@ -180,9 +205,13 @@ function placeMarkers()
 	 
 			createMarker(34.004774500, -86.005407900, "United States of America", "United Way of Etowah County<Br />Gadsden AL <br />URL: <a href='http://www.unitedwayec.com' target='_blank'>www.unitedwayec.com</a><br/>Projects will include yard work, cleaning, painting, school supply drive, picnic for low income families, etc.");
 	 
+			createMarker(34.039528800, -118.261708300, "United States of America", "United Way of Greater Los Angeles<Br />Los Angeles CA <br />URL: <a href='http://www.unitedwayla.org/volunteer' target='_blank'>www.unitedwayla.org/volunteer</a><br/>We will be conducting three different volunteer activities that focused on impacting education: a school beautification project, a civic engagement day, and an interview and resume workshop.");
+	 
 			createMarker(34.183050000, -82.153985000, "United States of America", "United Way of Greenwood County<Br />Greenwood SC <br />URL: <a href='http://www.facebook.com/unitedwaygac/' target='_blank'>www.facebook.com/unitedwaygac/</a><br/>We will be installing 2 Born Learning Trails in parks/playgrounds.");
 	 
 			createMarker(34.216874900, -119.016631400, "United States of America", "United Way of Ventura County<Br />Camarillo CA <br />URL: <a href='http://www.vcunitedway.org' target='_blank'>www.vcunitedway.org</a><br/>United Way of Ventura County will be launching \"Stuff the Bus\" - school supply drive - on Tuesday, June 21, 2016. United Way\'s Community Impact Team will be delivering over 30 pop up inflatable yellow buses to countywide agencies and business collection sites.");
+	 
+			createMarker(34.300347200, -83.832976900, "United States of America", "United Way of Hall County, Inc.<Br />Gainesville GA <br />URL: <a href='http://www.facebook.com/unitedwayofhallcounty/' target='_blank'>www.facebook.com/unitedwayofhallcounty/</a><br/>We are encouraging our viewers to contact other non-profits and flood the community with volunteers in the community. We are helping promote volunteer opportunities around the community on June 21st as well as being a drop spot for hygiene items that will be shared throughout the community.");
 	 
 			createMarker(34.368862900, -89.517597400, "United States of America", "United Way of Oxford-Lafayette County<Br />Oxford MS <br />URL: <a href='http://www.facebook.com/UnitedWayOxfordMS/' target='_blank'>www.facebook.com/UnitedWayOxfordMS/</a>");
 	 
@@ -190,7 +219,7 @@ function placeMarkers()
 	 
 			createMarker(34.499384400, -82.651319300, "United States of America", "United Way of Anderson County<Br />Anderson SC <br />URL: <a href='http://www.facebook.com/UnitedWayofAndersonCounty/' target='_blank'>www.facebook.com/UnitedWayofAndersonCounty/</a><br/>Morning of packing food for our Weekend Snackpack school feeding program.");
 	 
-			createMarker(34.543427000, -112.472487500, "United States of America", "United Way of Yavapai County, Inc.<Br />Prescott AZ <br />URL: <a href='http://Website: www.uw-yc.org and FaceBook' target='_blank'>Website: www.uw-yc.org and FaceBook</a><br/>Beautify and maintain our local Prescott Area Shelter.\n\nPainting rooms, etc. and cleaning the grounds.");
+			createMarker(34.543427000, -112.472487500, "United States of America", "United Way of Yavapai County, Inc.<Br />Prescott AZ <br />URL: <a href='http://Website: www.uw-yc.org and FaceBook' target='_blank'>Website: www.uw-yc.org and FaceBook</a><br/>PASS Prescott Area Shelter Services - Label and sort items for their rummage sale\nCCJ Coalition for Compassion and Justice - Help in their thrift store and refurbish a home\nThe Launch Pad Teen Center - Clean out their storage unit and help with their garden");
 	 
 			createMarker(34.686502000, -82.948702000, "United States of America", "United Way of Oconee County<Br />Seneca SC <br />URL: <a href='http://www.oconeeunitedway.org/' target='_blank'>www.oconeeunitedway.org/</a><br/>Oral Health Education fair, I would like to have a few dentist offices come out and set up information booths along with a nutritionist, the american heart association,american diabetes association and the hearing doctor to come out and set up information booths talking about how bad oral health can affect your overall health.");
 	 
@@ -206,25 +235,37 @@ function placeMarkers()
 	 
 			createMarker(35.158632000, -84.876016000, "United States of America", "United Way of the Ocoee Region, Inc.<Br />Cleveland TN <br />URL: <a href='http://www.unitedwaybc.com/www' target='_blank'>www.unitedwaybc.com/www</a><br/>We are focusing specifically on the beautification, repair and preparation of schools in the city of Cleveland and Bradley County. We will also be servicing needs of some of our partner agencies as well.");
 	 
+			createMarker(35.159649500, -89.959876900, "United States of America", "United Way of the Mid-South<Br />Memphis TN <br />URL: <a href='http://www.uwmidsouth.org/no-cost-health-services-available-in-west-memphis-june-6-25/' target='_blank'>www.uwmidsouth.org/no-cost-health-services-available-in-west-memphis-june-6-25/</a><br/>United Way of the Mid-South staff will \"walk the talk\" by volunteering their services to support a United States Military Innovative Readiness Training (IRT) event.  This is a special training exercise where several branches of the military practice delivering services during war time.  A medical clinic has been established in one of our radius counties and medical personnel are providing free medical, dental and vision services to members of the Mid-South community. \n");
+	 
+			createMarker(35.217538200, -111.620996000, "United States of America", "United Way of Northern Arizona<Br />Flagstaff AZ <br />URL: <a href='http://www.nazunitedway.org' target='_blank'>www.nazunitedway.org</a><br/>VITA- Free Income Tax Assistance, Financial Coaching, Housing referrals, Medical Screening");
+	 
 			createMarker(35.233247000, -82.736574800, "United States of America", "United Way of Transylvania County<Br />Brevard NC <br />URL: <a href='http://www.unitedwaytransylvania.org/' target='_blank'>www.unitedwaytransylvania.org/</a><br/>United Way of Transylvania County is a major partner in our local Stuff the Bus, which collects items and funds for a teacher supply closet. This project helps reduce the out-of-pocket expenditures for teachers while ensuring that k-12 students have the classroom supplies they need.\nUnited Way of Transylvania County plans to assemble \"happy at home\" kits of basic supplies (toothpaste, toilet tissue, dish soap, laundry soap, etc.) for individuals who have limited community access and/or limited abilities on Tuesday, June 21. Volunteers will assemble the bags; community partners will distribute the bags.");
 	 
 			createMarker(35.353889700, -119.062053300, "United States of America", "United Way of Kern County, Inc.<Br />Bakersfield CA <br />URL: <a href='http://www.uwkern.org' target='_blank'>www.uwkern.org</a><br/>Women\'s Leadership Council will conduct a drive in support of the Re-Give Project, which provides essential household furnishings for individuals and families transitioning out of homelessness.");
 	 
 			createMarker(35.385076500, -77.991871000, "United States of America", "United Way of Wayne County<Br />Goldsboro NC <br />URL: <a href='http://www.unitedwayne.org' target='_blank'>www.unitedwayne.org</a><br/>Collaborating with WATCH (Community Partner) and Go Wayne Go to provide outdoor, wellness activities. Activities will include but not limited to - washing the WATCH mobile, collecting medical supplies for WATCH mobile, greenway walk, and greenway clean up.");
 	 
+			createMarker(35.469660000, -81.258540900, "United States of America", "United Way of Lincoln County<Br />Lincolnton NC <br />URL: <a href='http://www.uwlincolncountync.org/' target='_blank'>www.uwlincolncountync.org/</a><br/>Partnering with Carolina\'s Healthcare System to outfit a parent resource room at our local intermediate school that operates at 95% free and reduced lunch.");
+	 
 			createMarker(35.498143200, -97.536240400, "United States of America", "United Way of Central Oklahoma, Inc.<Br />Oklahoma City OK <br />URL: <a href='http://www.unitedwayokc.org' target='_blank'>www.unitedwayokc.org</a><br/>We will be collecting school supplies for area school districts. This will help teachers in these districts be able to supply school supplies to students who are at or below the poverty level.");
+	 
+			createMarker(35.545221400, -77.025716400, "United States of America", "Beaufort County United Way<Br />Washington NC <br />URL: <a href='http://www.unitedwaybc.net' target='_blank'>www.unitedwaybc.net</a><br/>Install a Born Learning Trail in  collaboration with the Beaufort County Health Department in Belhaven, NC near the Boys &amp; Girls Club.");
 	 
 			createMarker(35.591681900, -82.558600800, "United States of America", "United Way of Asheville and Buncombe County<Br />Asheville NC <br />URL: <a href='http://www.facebook.com/handsonashevillebuncombe/' target='_blank'>www.facebook.com/handsonashevillebuncombe/</a><br/>We always launch our Back to School Supply Drive on UWW\'s Day of Action. This means online promotion of the need.");
 	 
 			createMarker(35.683355800, -105.944181700, "United States of America", "United Way of Santa Fe County, Inc.<Br />Santa Fe NM <br />URL: United Way of Santa Fe County <br/>United Way of Santa Fe County will have a variety of activities including creating an outdoor garden, hosting a clothing and book exchange putting together summer reading backpacks and much more!");
 	 
+			createMarker(35.709025900, 139.731992500, "Japan", "Central Community Chest of Japan<Br />Tokyo Japan<br />URL: www.akaihane.or.jp<br/>.");
+	 
 			createMarker(35.743680400, -81.366705100, "United States of America", "Catawba County United Way<Br />Hickory NC <br />URL: <a href='http://www.facebook.com/pages/Catawba-County-United-Way' target='_blank'>www.facebook.com/pages/Catawba-County-United-Way</a><br/>Some type of team volunteer project (company, church group, etc) for a local agency");
+	 
+			createMarker(35.747089000, -81.685069000, "United States of America", "Burke County United Way<Br />Morganton NC <br />URL: <a href='http://www.bcuw.org' target='_blank'>www.bcuw.org</a><br/>Our Burke County United Way partner agencies have identified 9 community projects needing volunteers. Projects include:\n\n1) The Meeting Place Mission - Men\'s Transitional Housing\nProject Task: Outside Yard Maintenance (trimming bushes, weeding &amp; etc.)\n\n2) The Meeting Place Mission - Women &amp; Children\'s Shelter\nProject Task: Outside Yard Maintenance (trimming bushes, weeding &amp; etc.)\n\n3) The Meeting Place Mission - Men\'s Transitional Housing\nProject Task: Inside Shelter Cleaning (sweeping, moping, cleaning base boards &amp; etc)\n\n4) The Meeting Place Mission - Women &amp; Children\'s Shelter\nProject Task: Inside Shelter Cleaning (sweeping, moping, cleaning base boards &amp; etc)\n\n5) Options (shelter for victims of domestic and/or sexual assault)\nProject Task: Outside Shelter Cleaning (cleaning play yard, washing windows, weeding garden, picking up trash from parking lot &amp; etc)\n\n6) Burke County United Way - Frozen Meals\nProject Task: Packaging 2,000 Frozen Meals for distribution to our partner agencies who provide food assistance\n\n7) Burke County United Way - Build-A-Backpack\nProject Task: Distribution of collection boxes to area  business/organization for collection of school supplies for the Build-A-Backpack project\n\n8 &amp; 9) Foothills Service Project\nProject Task: Building Two Ramps for disabled and elderly");
 	 
 			createMarker(35.845621300, -86.390270000, "United States of America", "United Way of Rutherford and Cannon Counties<Br />Murfreesboro TN <br />URL: <a href='http://YourLocalUW.org' target='_blank'>YourLocalUW.org</a><br/>Various projects throughout the community supporting nonprofits, parks and recreation, etc.");
 	 
 			createMarker(35.850355000, -78.831565900, "United States of America", "United Way of the Greater Triangle, Inc.<Br />Morrisville NC <br />URL: <a href='http://unitedwaytriangle.galaxydigital.com/event/detail/?event_id=28386' target='_blank'>unitedwaytriangle.galaxydigital.com/event/detail/?event_id=28386</a><br/>At our Day of Action event, children will participate in activities aimed towards areas of math, reading and other academic subjects that are critical to the learning process. Together community volunteers  will prepare 350 kits containing items to prevent learning loss, and will be given to families in attendance.");
 	 
-			createMarker(35.880136000, -84.562259000, "United States of America", "United Way of Roane County<Br />Harriman TN <br />URL: united way of Roane County");
+			createMarker(35.880136000, -84.562259000, "United States of America", "United Way of Roane County<Br />Harriman TN <br />URL: united way of Roane County<br/>We will be having a getting ready move in day at our new facility. Painting, cleaning and yard work.");
 	 
 			createMarker(35.880382600, -106.297096500, "United States of America", "United Way of Northern New Mexico<Br />Los Alamos NM <br />URL: <a href='http://www.UnitedWayNNM.org' target='_blank'>www.UnitedWayNNM.org</a>");
 	 
@@ -232,7 +273,9 @@ function placeMarkers()
 	 
 			createMarker(35.951694000, -86.824895000, "United States of America", "United Way of Williamson County<Br />Franklin TN <br />URL: <a href='http://uwwc.org' target='_blank'>uwwc.org</a><br/>Through our Needs Assignment we learned the our community is lacking awareness of services available to them. Our Day of Action will send teams of volunteers into neighborhoods with Community Outreach materials highlighting our 2-1-1 service.");
 	 
-			createMarker(36.093519500, -79.779349900, "United States of America", "United Way of Greater Greensboro<Br />Greensboro NC <br />URL: <a href='http://www.unitedwaygso.org/' target='_blank'>www.unitedwaygso.org/</a><br/>UWGG will provide a variety of activities centered around basic needs, education, and health. Activies will include a summer nutrition project and other meaningful volunteer activities.");
+			createMarker(35.966790700, -83.932231300, "United States of America", "United Way of Greater Knoxville<Br />Knoxville TN <br />URL: <a href='http://www.uwgk.org' target='_blank'>www.uwgk.org</a><br/>Our Day of Action will focus on acting against Summer Learning Loss, primarily at locations of members of our Knox Area Afterschool Network.");
+	 
+			createMarker(36.093519500, -79.779349900, "United States of America", "United Way of Greater Greensboro<Br />Greensboro NC <br />URL: <a href='http://www.unitedwaygso.org/' target='_blank'>www.unitedwaygso.org/</a><br/>UWGG will provide a variety of activities centered around basic needs, education, income, and health. Activies will include a summer nutrition project and other meaningful volunteer activities.");
 	 
 			createMarker(36.141300500, -95.988809200, "United States of America", "Tulsa Area United Way<Br />Tulsa OK <br />URL: <a href='http://www.tauw.org/tauw/Calendar_-_Day_of_Caring.asp' target='_blank'>www.tauw.org/tauw/Calendar_-_Day_of_Caring.asp</a><br/>Day of Caring is a 22-year tradition of the Tulsa Area United Way (TAUW) and is one of the largest single-day events in the nation. TAUW\'s overall mission is to unite the people and resources to improve lives and build a stronger community and Day of Caring does just that. Over 5,000 volunteers unite together to complete environmental projects, work on inside and outside beautification and landscaping projects and make quality of life improvements in the six-county service area that included Creek, Okmulgee, Osage, Rogers, Tulsa and Wagoner counties. In one day in September over 360 types of works are accomplished with a cooperative effort by TAUW, Tulsa area companies, foundations, civic groups, schools, churches and nonprofit agencies:\nCommunity improvement one life at a time -- we make a difference in our community, not only in the environment, but in the day-to-day lives as hundreds of people are impacted on Day of Caring. The TAUW Day of Caring makes a dramatic impact by identifying our community needs and coordinating the volunteers and the resources. More importantly, the spirit and enthusiasm of Day of Caring is not just for one day. Many companies and individuals continue to volunteer throughout the year to further enhance our community. \n");
 	 
@@ -260,7 +303,11 @@ function placeMarkers()
 	 
 			createMarker(37.283105600, -76.741936300, "United States of America", "United Way of Greater Williamsburg<Br />Williamsburg VA <br />URL: <a href='http://www.facebook.com/UnitedWayofGreaterWilliamsburg' target='_blank'>www.facebook.com/UnitedWayofGreaterWilliamsburg</a><br/>We organize volunteers to help out local non-profits and public service agencies with projects like, painting, repairs, landscaping, or other projects.");
 	 
+			createMarker(37.303678600, -77.288828500, "United States of America", "United Way of Hopewell-Prince George<Br />Hopewell VA <br />URL: <a href='http://www.facebook.com/United-Way-of-Hopewell-Prince-George-150748334944032/' target='_blank'>www.facebook.com/United-Way-of-Hopewell-Prince-George-150748334944032/</a><br/>Our partner and local food pantry is moving and we are getting a team of volunteers together to assist them with the move. The date is not certain yet, but by end of July.");
+	 
 			createMarker(37.306500200, -89.523287700, "United States of America", "United Way of Southeast Missouri<Br />Cape Girardeau MO <br />URL: <a href='http://www.unitedwayofsemo.org' target='_blank'>www.unitedwayofsemo.org</a><br/>Several projects throughout the community");
+	 
+			createMarker(37.581174300, -77.488028800, "United States of America", "United Way of Greater Richmond & Petersburg<Br />Richmond VA <br />URL: <a href='http://www.eventbrite.com/e/united-way-young-leaders-society-day-of-action-tickets-25405366134' target='_blank'>www.eventbrite.com/e/united-way-young-leaders-society-day-of-action-tickets-25405366134</a><br/>Our United Way Young Leaders will be inspiring kindergartners to read and exercise over the summer. On the last day of school, we are helping the kids graduate from kindergarten, reading books and playing soccer with the help of the Richmond Kickers, our local professional soccer team.");
 	 
 			createMarker(37.646324900, -84.772240900, "United States of America", "Heart of Kentucky United Way<Br />Danville KY <br />URL: <a href='http://getconnected.hkuw.org/' target='_blank'>getconnected.hkuw.org/</a><br/>Work in the Boyle, Lincoln, Mercer, and Garrard Counties to improve lives and community in the areas of Education, Income, and Health.");
 	 
@@ -278,7 +325,11 @@ function placeMarkers()
 	 
 			createMarker(38.406385900, -96.179758200, "United States of America", "United Way of the Flint Hills, Inc.<Br />Emporia KS <br />URL: <a href='http://www.facebook.com/unitedwayfh/' target='_blank'>www.facebook.com/unitedwayfh/</a><br/>We plan to visit Summer Meals Sites with volunteers to teach children about literacy and math with activities and give-aways to prevent summer slide.  We also plan to have an event where volunteers put together literacy kits.");
 	 
+			createMarker(38.412080000, -82.469081000, "United States of America", "United Way of the River Cities, Inc.<Br />Huntington WV <br />URL: <a href='http://www.facebook.com/unitedwayoftherivercities/' target='_blank'>www.facebook.com/unitedwayoftherivercities/</a><br/>This year, we\'re partnering with our local food bank to offer two volunteer opportunities. One group will paint the facade of the food bank\'s warehouse facility, including kid-friendly decorative designs on the loading dock doors. One group will help with mobile pantry registration and food distribution in one of the more rural counties we both serve.");
+	 
 			createMarker(38.423659700, -122.753869100, "United States of America", "United Way of the Wine Country<Br />Santa Rosa CA <br />URL: <a href='http://www.unitedwaywinecountry.org/our-work/day-of-caring/' target='_blank'>www.unitedwaywinecountry.org/our-work/day-of-caring/</a><br/>At this time, our plans have not been solidified. We are in the process of meeting with area business leaders to determine if a single volunteer day event is still the best for our community or if we will begin to offer year-round volunteer events and no specific day-long event. All plans including date of event are tentative at this time.");
+	 
+			createMarker(38.568631000, -121.308335000, "United States of America", "United Way California Capital Region<Br />Sacramento CA <br />URL: <a href='http://www.yourlocalunitedway.org/event/kick-summer-fun-united-way' target='_blank'>www.yourlocalunitedway.org/event/kick-summer-fun-united-way</a><br/>Join us as we kick off our Summer Meals program at one of our summer meals sites, Robertson Community Center. This family-friendly event will include fun, games and tons of free resources available for kids and teens this summer! Lunch will be provided by United Way\'s Summer Meals Program. Volunteers needed!");
 	 
 			createMarker(38.710577300, -93.273931300, "United States of America", "Sedalia-Pettis County United Way<Br />Sedalia MO <br />URL: <a href='http://www.spcuw.org' target='_blank'>www.spcuw.org</a><br/>This has not been finalized, but I am gathering the service providers in and around Pettis County Missouri to join the Sedalia-Pettis County United Way at the Sedalia Housing Authority for a Party in the Parking Lot. We did this program last year and it was for service providers to come together to give a presentation on what they do, identify collaboration needs, and build relationships. We will be utilizing this opportunity as a resource fair for the individuals and families who are served by the Sedalia Housing Authority. It is our goal to connect people with resources that will help stabilize them and empower them to be self efficient, etc.");
 	 
@@ -290,11 +341,15 @@ function placeMarkers()
 	 
 			createMarker(38.958740000, -85.890476000, "United States of America", "Jackson County United Way<Br />Seymour IN <br />URL: Jackson County Volunteer Center (facebook)<br/>We are not sure just yet. We\'d love to plan an event that will encourage families to participate!");
 	 
+			createMarker(39.042083900, -95.757691700, "United States of America", "United Way of Greater Topeka<Br />Topeka KS <br />URL: <a href='http://www.unitedwaytopeka.org' target='_blank'>www.unitedwaytopeka.org</a><br/>This year we are asking our corporate partners to participate by creating activity kits to be used at the 30 Summer Food Service Programs (SFSP) in Shawnee County.");
+	 
 			createMarker(39.125663100, -84.501529500, "United States of America", "United Way of Greater Cincinnati<Br />Cincinnati OH <br />URL: <a href='http://uwgc.org/volunteer' target='_blank'>uwgc.org/volunteer</a><br/>Family expo that promotes education, income and health through activities with United Way and agency partners at four locations in Greater Cincinnati region.");
 	 
 			createMarker(39.148254000, -121.642810000, "United States of America", "Yuba-Sutter United Way<Br />Yuba City CA <br />URL: <a href='http://yuba-sutterunitedway.org' target='_blank'>yuba-sutterunitedway.org</a><br/>Community food drive to benefit 11 local food closets. Last year we collected 16,000 pounds of food. Our goal this year is 25,000. Targeting businesses, local governmental entities, schools, churches and individuals.");
 	 
-			createMarker(39.234371300, -121.039891400, "United States of America", "United Way of Nevada County<Br />Grass Valley CA <br />URL: <a href='http://uwnc.org/events.html' target='_blank'>uwnc.org/events.html</a><br/>Local business employees, students and individuals will help local nonprofit agencies complete much-need projects, such as painting, organizing, sorting, bagging and gardening.");
+			createMarker(39.170903100, -91.882338200, "United States of America", "United Way of Audrain County<Br />Mexico MO <br />URL: Facebook = United Way of Audrain County<br/>Collect toilet paper, diapers, and diaper wipes until Thursday, June 30.  These will be distributed to those in need in Audrain County, Missouri.\nAssist those at the Mexico Senior Center by assisting them in filling out paperwork, making ice cream floats for them, and visiting with them while they eat.");
+	 
+			createMarker(39.235902900, -121.037823300, "United States of America", "United Way of Nevada County<Br />Grass Valley CA <br />URL: <a href='http://uwnc.org/events.html' target='_blank'>uwnc.org/events.html</a><br/>Local business employees, students and individuals will help local nonprofit agencies complete much-need projects, such as painting, organizing, sorting, bagging and gardening.");
 	 
 			createMarker(39.268732000, -81.555623000, "United States of America", "United Way Alliance of the Mid-Ohio Valley<Br />Parkersburg WV <br />URL: <a href='http://www.uwamov.com' target='_blank'>www.uwamov.com</a><br/>We will incorporate on-site projects for our local companies, off-site projects to help funded partners with various needs, and offer ideas/coordination for organizations or companies wishing to do a drive to benefit United Way or its funded partners.");
 	 
@@ -307,6 +362,8 @@ function placeMarkers()
 			createMarker(39.422392500, -77.410070900, "United States of America", "United Way of Frederick County, Inc.<Br />Frederick MD <br />URL: <a href='http://www.unitedwayfrederick.org/Volunteer' target='_blank'>www.unitedwayfrederick.org/Volunteer</a><br/>A series of community services projects hosted by agencies/organizations within the community.");
 	 
 			createMarker(39.464663300, -87.374184100, "United States of America", "United Way of the Wabash Valley, Inc.<Br />Terre Haute IN <br />URL: <a href='http://www.uwwv.org' target='_blank'>www.uwwv.org</a><br/>We have 37 projects from 25 agencies with projects ranging from  grounds work in public parks, weeding, painting, caring for dogs and cats at a shelter, tie dyeing shirts, washing windows, installing smoke detectors, raising domestic violence awareness, sorting food and clothing, cleaning carpets, preparing meals.");
+	 
+			createMarker(39.492442600, -119.803607300, "United States of America", "United Way of Northern Nevada and the Sierra<Br />Reno NV <br />URL: <a href='http://www.facebook.com/UWNNS/?ref=aymt_homepage_panel' target='_blank'>www.facebook.com/UWNNS/?ref=aymt_homepage_panel</a><br/>We will be spending Day of Action with the community of Fallon--bringing books and engaging activities for kids, painting a Little Free Library and installing it in the Fallon area.");
 	 
 			createMarker(39.713403000, -82.602604000, "United States of America", "United Way of Fairfield County<Br />Lancaster OH <br />URL: <a href='http://uwayfairfieldco.org' target='_blank'>uwayfairfieldco.org</a><br/>This year, we are organizing a \"Sports Equipment Drive\" as part of our Day of Action. In addition, we will be coordinating Outdoor Activities for children as we advocate, \"It\'s Okay to Go Out and Play\". Activities will include skateboarding, how to play marbles, street basketball, and exercise balls, chalk art, bubbles, hula hoop contests and more.");
 	 
@@ -324,11 +381,15 @@ function placeMarkers()
 	 
 			createMarker(40.055762900, -76.296941600, "United States of America", "United Way of Lancaster County<Br />Lancaster PA <br />URL: <a href='http://www.UWLanc.org/DayofAction' target='_blank'>www.UWLanc.org/DayofAction</a><br/>A member of our Board, who has been a highly involved member of our community recently passed away. His family approached us about having a day in his honor around his Birthday. One of the goals was to incorporate volunteering and service into the day, as he was a highly active citizen of Lancaster.");
 	 
+			createMarker(40.056555300, -82.399857200, "United States of America", "United Way of Licking County<Br />Newark OH <br />URL: <a href='http://www.facebook.com/unitedwaylc/?ref=bookmarks' target='_blank'>www.facebook.com/unitedwaylc/?ref=bookmarks</a><br/>Our Day of Action Plan is to have volunteers from OSU Newark Campus fills bags for the homeless.  We will drop these bags off at our local shelters and Licking County of Housing Coalition.  What is really great out this event is that our United Way did a 50 day outreach campaign where we collected items.  These items will then go into our bags.  Multiple efforts making a big impact.  In addition we are doing a \"Continue the Journey\" tie in to the day of action.  A pay it forward event.  We are using ads, billboards and the day of action volunteer event.");
+	 
 			createMarker(40.118474100, -88.248981500, "United States of America", "United Way of Champaign County<Br />Champaign IL <br />URL: <a href='http://www.uwayhelps.org/dayofaction' target='_blank'>www.uwayhelps.org/dayofaction</a><br/>We are still determining.");
 	 
 			createMarker(40.146335000, -82.994893800, "United States of America", "United Way of Delaware County, Inc.<Br />Delaware OH <br />URL: <a href='http://www.liveuniteddelawarecounty.org ' target='_blank'>www.liveuniteddelawarecounty.org </a><br/>Day of Action will center around hunger with an engagement opportunity with the county\'s summer lunch program. Besides helping serve between 150 - 200 children and their parents, volunteers will also participate alongside clients in a short fitness activity.");
 	 
 			createMarker(40.174109600, -74.852562200, "United States of America", "United Way of Bucks County<Br />Fairless Hills PA <br />URL: <a href='http://www.uwbucks.org/bkohunger/' target='_blank'>www.uwbucks.org/bkohunger/</a><br/>Bucks Knocks Out Hunger is a fundraiser for Bucks County\'s food pantries, a chance to advocate for those who are hungry and food insecure, and a chance to help pack meals as a volunteer. Through this program, over 100,000 nutritious, shelf-stable meals will be packed by volunteers at just 25 cents each on June 17th at Delaware Valley University.");
+	 
+			createMarker(40.210143300, -74.128298100, "United States of America", "United Way of Monmouth County<Br />Farmingdale NJ <br />URL: <a href='http://www.facebook.com/UWMCNJ' target='_blank'>www.facebook.com/UWMCNJ</a><br/>Volunteers from Deloitte will be rebuilding homes in Monmouth County that were damaged by Superstorm Sandy.");
 	 
 			createMarker(40.235752700, -111.660131600, "United States of America", "United Way of Central & Southern Utah<Br />Provo UT <br />URL: <a href='http://everydaylearners.org/events/readalong-2015' target='_blank'>everydaylearners.org/events/readalong-2015</a><br/>We will be holding our second annual Read-Along event to raise books for children whose mothers are going through substance abuse rehabilitation. Participants will read aloud for at least 15 minutes to their children, friends, or family members. For each hour read, one book will be donated.");
 	 
@@ -336,11 +397,15 @@ function placeMarkers()
 	 
 			createMarker(40.284379300, -74.692556100, "United States of America", "United Way of Greater Mercer County, Inc.<Br />Lawrenceville NJ <br />URL: <a href='http://www.facebook.com/UWGMC/' target='_blank'>www.facebook.com/UWGMC/</a><br/>We will hold our 2nd annual Strike Out Hunger event packing oatmeal for children losing access to free breakfast at the end of the school year. We hope to beat our record of 75k meals and 320 volunteers!");
 	 
+			createMarker(40.327680000, -79.545260000, "United States of America", "United Way of Westmoreland County<Br />Greensburg PA <br />URL: <a href='http://www.unitedway4u.org' target='_blank'>www.unitedway4u.org</a><br/>We plan to collaborate with a local corporate partner, engaging workplace volunteers to assemble summer reading backpacks. The backpacks will be stuffed with supplies key to early learning, including school supplies like pencils, crayons and notebooks as well as at least two early learning books. The backpacks will be distributed to one or more community impact partners who are engaged in early learning and/or \"summer slide\" programming in our communities.");
+	 
 			createMarker(40.337166500, -75.927287200, "United States of America", "United Way of Berks County<Br />Reading PA <br />URL: <a href='http://www.uwberks.org; www.facebook.com/uwberks/' target='_blank'>www.uwberks.org; www.facebook.com/uwberks/</a><br/>We will hold Big Cheese II, a community-wide service event focused on raising awareness of hunger in our community and then taking action to address it. 600 volunteers will be recruited to package dry ingredients that will provide 200,000 shelf-stable, nutrition fortified macaroni and cheese meals for distribution to the local food bank. The project is in partnership with Outreach, Inc.");
 	 
 			createMarker(40.423581400, -104.691709300, "United States of America", "United Way of Weld County<Br />Greeley CO <br />URL: <a href='http://www.unitedway-weld.org' target='_blank'>www.unitedway-weld.org</a><br/>By partnering with local agencies, we will connect our community partners with those in need. United Way of Weld County\'s Day of Action will offer multiple opportunities that will be completed between 9 and noon on June 18.");
 	 
 			createMarker(40.450614700, -74.439263600, "United States of America", "United Way of Central Jersey<Br />Milltown NJ <br />URL: <a href='http://www.facebook.com/unitedway.centraljersey' target='_blank'>www.facebook.com/unitedway.centraljersey</a><br/>Health: Diet and Exercise");
+	 
+			createMarker(40.475607700, -78.422481400, "United States of America", "United Way of Blair County<Br />Altoona PA <br />URL: <a href='http://www.facebook.com/UnitedWayBlairCounty/' target='_blank'>www.facebook.com/UnitedWayBlairCounty/</a><br/>Hundreds of volunteers will be mobilized throughout Blair County to complete service projects for non-profit agencies.");
 	 
 			createMarker(40.523193000, -74.855459900, "United States of America", "United Way of Hunterdon County<Br />Flemington NJ <br />URL: <a href='http://uwhunterdon.org' target='_blank'>uwhunterdon.org</a><br/>activities at agencies linking their work to our Community Impact goal of increasing the financial stability of 10,000 individuals by 2020 and \nensuring all residents have access to a broad range of health care resources to help HAROLD (Health At Risk Overwhelmed with Lifestyle Dilemmas) stay healthy by aging in place/independent living and healthy behaviors \n");
 	 
@@ -358,11 +423,13 @@ function placeMarkers()
 	 
 			createMarker(40.811013600, -74.458573700, "United States of America", "United Way of Northern New Jersey<Br />Morristown NJ <br />URL: <a href='http://www.unitedwaynnj.org/volunteer/dayofaction.php' target='_blank'>www.unitedwaynnj.org/volunteer/dayofaction.php</a><br/>United Way of Northern New Jersey will be focusing on engaging volunteers in helping ALICE children this summer. On the Day of Action, we are hosting a corporate event where volunteers will be creating Summer Smart Totes for ALICE preschool and younger school-age children. We are also promoting kicking off a Tools for School project, summer food packages for kids, grow a row gardening project, a Money focused Book Buddies project, and promoting advocacy for ALICE.");
 	 
-			createMarker(40.811626400, -96.702389700, "United States of America", "United Way of Lincoln & Lancaster County<Br />Lincoln NE <br />URL: <a href='http://unitedwaylincoln.org' target='_blank'>unitedwaylincoln.org</a>");
+			createMarker(40.811626400, -96.702389700, "United States of America", "United Way of Lincoln & Lancaster County<Br />Lincoln NE <br />URL: <a href='http://unitedwaylincoln.org' target='_blank'>unitedwaylincoln.org</a><br/>United Way of Lincoln and Lancaster County will create meaningful activities centered around literacy.   During this year\'s Virtual Book Drive, over $10,000 was raised which will be used to purchase books for youth in the community throughout the year. Over 100 volunteers will be volunteering their time on Day of Action at 13 participating sites in the Lincoln community by promoting literacy by distributing new age-appropriate books and taking an hour to read to children at each program site.");
 	 
 			createMarker(40.834385000, -79.921971000, "United States of America", "United Way of Butler County<Br />Butler PA <br />URL: <a href='http://www.butlerunitedway.org' target='_blank'>www.butlerunitedway.org</a><br/>We will be promoting volunteerism and promoting the opportunities available throughout Butler County for volunteers to engage with the community organizations.");
 	 
 			createMarker(40.840491400, -81.763287000, "United States of America", "Orrville Area United Way, Inc.<Br />Orrville OH <br />URL: <a href='http://orrvilleareaunitedway.org/' target='_blank'>orrvilleareaunitedway.org/</a><br/>We planed a VITA Site.");
+	 
+			createMarker(40.857401200, -99.985800000, "United States of America", "Cozad United Way, Inc.<Br />Cozad NE <br />URL: <a href='http://www.facebook.com/CozadUnitedWay/' target='_blank'>www.facebook.com/CozadUnitedWay/</a><br/>We will be helping with the Nebraska State Fly in at the Cozad Airport. We will be sponsoring a bounce house to entertain the kids and also free water to all that attend. Throughout the year we do grocery deliveries every Wednesday to homebound members of our community.");
 	 
 			createMarker(40.903060400, -89.492913000, "United States of America", "Clearfield Area United Way, Inc.<Br />Clearfield PA <br />URL: newspaper<br/>Our Reading Ripples Project/Children\'s Books (early grade readign material) are donated, collected, processed &amp; donated to local kids in need.");
 	 
@@ -380,6 +447,8 @@ function placeMarkers()
 	 
 			createMarker(41.420338900, -91.046973300, "United States of America", "United Way of Muscatine, Inc.<Br />Muscatine IA <br />URL: <a href='http://unitedwaymuscatine.org' target='_blank'>unitedwaymuscatine.org</a><br/>Our Day of Action event is Pack the Bus. This is where we are collecting school supplies to help those students in the coming year.");
 	 
+			createMarker(41.501211800, -81.682279100, "United States of America", "United Way of Greater Cleveland<Br />Cleveland OH <br />URL: <a href='http://www.unitedwaycleveland.org/media-events/events/stuff-the-bus-with-books/' target='_blank'>www.unitedwaycleveland.org/media-events/events/stuff-the-bus-with-books/</a><br/>Join us for United Way of Greater Cleveland\'s Day of Action and help \"Stuff the Bus with Books\" before the Cleveland Indians take on the Chicago White Sox at Progressive Field on Saturday, June 18.\n\nThe Cleveland Indians are once again partnering with United Way to collect children\'s and young adult books and put them into the hands of children in our community! It\'s crucial to get books into the hands of children during the summer months to encourage reading and academic success!");
+	 
 			createMarker(41.535513100, -72.799168600, "United States of America", "United Way of Meriden and Wallingford, Inc.<Br />Meriden CT <br />URL: <a href='http://www.facebook.com/UnitedWayMW' target='_blank'>www.facebook.com/UnitedWayMW</a><br/>Corporate partners will hold drives for healthy foods, dental, and hygiene products.");
 	 
 			createMarker(41.555818000, -90.526550000, "United States of America", "United Way of the Quad Cities Area, Inc.<Br />Davenport IA <br />URL: <a href='http://www.unitedwayqc.org/event/day-of-caring-june' target='_blank'>www.unitedwayqc.org/event/day-of-caring-june</a><br/>We are combining this with our Health Day of Caring and will be engaging volunteers in activities that promote healthy activities. Volunteers will help at local youth camps as part of field/Olympic days, planting gardens, building activity areas and clearing walking trails.  They will also be encouraged to host hygiene drives and donate blood.");
@@ -392,7 +461,7 @@ function placeMarkers()
 	 
 			createMarker(41.672192900, -72.942779300, "United States of America", "United Way of West Central Connecticut<Br />Bristol CT <br />URL: <a href='http://uwwestcentralct.org' target='_blank'>uwwestcentralct.org</a><br/>On May 20, 2016, we held our 25th annual Day of Caring. With nearly 600 volunteers, 175 students from public and private schools, and projects in the four towns we serve, this was our largest Day of Caring yet. To celebrate, we will be holding a Volunteer Appreciation Event at Muzzy Field in Bristol, CT on June 22nd. Bristol Blues to play the Wachusett Dirt Dawgs.  A pre-game ceremony will recognize volunteers and the United Way of West Central CT. Volunteers, family and friends will catch the baseball game and an enjoy a picnic to celebrate their service in the community.");
 	 
-			createMarker(41.701463700, -73.929724600, "United States of America", "United Way of the Dutchess - Orange Region<Br />Poughkeepsie NY <br />URL: <a href='http://uwdor.org' target='_blank'>uwdor.org</a><br/>10 projects planned in two counties including painting, gardening, organizing, collecting goods, cleaning etc.");
+			createMarker(41.701463700, -73.929724600, "United States of America", "United Way of the Dutchess - Orange Region<Br />Poughkeepsie NY <br />URL: <a href='http://uwdor.org, facebook.com/uwdor, twitter.com/uwdor, instagram.com/unitedwaydor' target='_blank'>uwdor.org, facebook.com/uwdor, twitter.com/uwdor, instagram.com/unitedwaydor</a><br/>10 projects planned in two counties including painting, gardening, organizing, collecting goods, cleaning etc.");
 	 
 			createMarker(41.760021900, -72.696361800, "United States of America", "United Way of Central and Northeastern Connecticut<Br />Hartford CT <br />URL: <a href='http://unitedwayinc.org/ ' target='_blank'>unitedwayinc.org/ </a><br/>We are planning to partner with an organization that raises awareness about the Summer Food Service Program (End Hunger CT!) by holding a \"Block Party\" type event that draws families to a summer food site where they can learn about how their children can get access to healthy food over the summer, and where they can gain access to books that will keep them on track with reading over the summer. At the Block Party, United Way Emerging Leaders Society volunteers, AmeriCorps VISTA members, and other community volunteers will host fun educational activities for children/families including a book giveaway. In addition, the event will serve as a meeting spot for volunteers who will be canvassing the neighborhood to raise awareness about the program and encourage families to attend the event. (The canvassing event is part of a regional \"blitz\" to raise awareness about the Summer Food Service Program). Volunteers will be invited to join the block party at the conclusion of their canvassing project. Following the event, volunteers will distribute additional books to other summer food sites throughout the summer if resources allow.");
 	 
@@ -428,11 +497,15 @@ function placeMarkers()
 	 
 			createMarker(42.296561900, -89.626984400, "United States of America", "United Way of Northwest Illinois, Inc.<Br />Freeport IL <br />URL: <a href='http://Www.uwni.org' target='_blank'>Www.uwni.org</a><br/>We received a large donation (20 palleta) of children\'s workbooks and will do a community distribution on Day Of Action.  Churches, schools, non-profits, daycares, etc. We will also build bicycles that will be distributed to foster kids in our community, and conduct a tool drive for our work training program in partnership with our City\'s blight reduction grant.  Finally we will conduct mock interviews with teens in various summer programs.");
 	 
+			createMarker(42.330919800, -83.045390600, "United States of America", "United Way for Southeastern Michigan<Br />Detroit MI <br />URL: <a href='http://www.liveunitedsem.org/volunteer' target='_blank'>www.liveunitedsem.org/volunteer</a><br/>Today, 300,000 children who rely on free and reduced-price school lunches are out on summer break. Through a partnership with Michigan No Kid Hungry, they can continue to get their meals for free at summer food sites called Meet Up and Eat Up. United Way for Southeastern Michigan is putting on block parties this summer at some of these Meet Up and Eat Up sites to help raise awareness of this resource for families, and we need your help! These parties could not be a success without the help of volunteers, who are needed to assist United Way for Southeastern Michigan staff in creating a warm and welcoming experience for block party guests. Volunteer roles include:\no Greeters and Monitors -Greet block party guests as they join the fun and monitor children. \no Activities and Game Leaders -Lead games and hands-on activities with children. Activities could include face painting, book distribution and reading station, arts and crafts table management, etc. \no Welcome Center and Distribution Support - assist United Way staff at the welcome center and community partner stations as needed.");
+	 
 			createMarker(42.341099900, -122.866283300, "United States of America", "United Way of Jackson County, Inc.<Br />Medford OR <br />URL: <a href='http://www.facebook.com/UnitedWayJacksonCounty/?ref=bookmarks' target='_blank'>www.facebook.com/UnitedWayJacksonCounty/?ref=bookmarks</a><br/>We will ask all of our social media savvy folks to facebook and tweet school lunch sites.");
 	 
 			createMarker(42.352524900, -71.048498900, "United States of America", "United Way of Massachusetts Bay and Merrimack Valley<Br />Boston MA <br />URL: <a href='http://www.speakunited.org/?s=community+baby+shower' target='_blank'>www.speakunited.org/?s=community+baby+shower</a><br/>In the spirit of a traditional baby shower, this event connects 200 pregnant women and new parents with maternal and early childhood health service resources and over 100 volunteers.");
 	 
 			createMarker(42.356065700, -87.902199400, "United States of America", "United Way of Lake County, Inc.<Br />Gurnee IL <br />URL: <a href='http://www.liveunitedlakecounty.org/portfolio/kindergarten-countdown-camp-2/' target='_blank'>www.liveunitedlakecounty.org/portfolio/kindergarten-countdown-camp-2/</a><br/>As a part of Success By 6\'s Kindergarten Countdown Camp, we will host a parent welcome event hosted by the AmeriCorps VISTA. This event will cover being school ready, how parents can continue to teach their children at home, the importance of attendance, and a healthy meal for families.  On 6/7, we will have a separate volunteer event at BMO Harris, where employees have the opportunity to make 500 boxes for our Early Learning Clubs.");
+	 
+			createMarker(42.370299600, -83.471044500, "United States of America", "Plymouth Community United Way<Br />Plymouth MI <br />URL: <a href='http://www.facebook.com/plymouthunitedway/' target='_blank'>www.facebook.com/plymouthunitedway/</a><br/>The Plymouth Community United Way and The Salvation Army are joining forces with SOAP to bring awareness and action to human trafficking. We will be doing a \"soaping\" right here in Plymouth. The date is Saturday, June 25 beginning at 8:30 am and running until, approximately 11:00 am.");
 	 
 			createMarker(42.442183000, -76.495461200, "United States of America", "United Way of Tompkins County<Br />Ithaca NY <br />URL: <a href='http://uwtc.org/united-way-day-action' target='_blank'>uwtc.org/united-way-day-action</a><br/>Volunteer projects throughout the county including but not limited to reading to children, gardening and yard activities, general clean-up, serving meals, painting, and assembling informational packets.");
 	 
@@ -466,7 +539,7 @@ function placeMarkers()
 	 
 			createMarker(42.904313000, -78.873153000, "United States of America", "United Way of Buffalo & Erie County<Br />Buffalo NY <br />URL: <a href='http://www.facebook.com/UWBEC?ref=ts' target='_blank'>www.facebook.com/UWBEC?ref=ts</a><br/>Community Baby Shower. This is a 6-week long community-wide collection of brand new, critically needed baby items. We partner with 3 agencies who work with moms/expectant moms living below the poverty level. We prepare over 1,000 Baby Bundles to be distributed to these moms.");
 	 
-			createMarker(42.934795200, -72.279746200, "United States of America", "Monadnock United Way<Br />Keene NH <br />URL: <a href='http://www.facebook.com/MonadnockUnitedWay' target='_blank'>www.facebook.com/MonadnockUnitedWay</a><br/>We are organizing a backpack &amp; school supply drive called the \"First Day Project.\" It will benefit ~250 students (K-5) in need. We are partnering with local businesses to collect supplies and will have volunteers from the Police Dept. to stuff and distribute backpacks!");
+			createMarker(42.934795200, -72.279746200, "United States of America", "Monadnock United Way<Br />Keene NH <br />URL: <a href='http://www.facebook.com/MonadnockUnitedWay' target='_blank'>www.facebook.com/MonadnockUnitedWay</a><br/>We are organizing a backpack &amp; school supply drive called the \"First Day Project.\" It will benefit ~250 students (K-5) in need. We are partnering with local businesses to collect supplies and will have volunteers from the school and the local Police Dept. to stuff and distribute backpacks!");
 	 
 			createMarker(42.960550400, -85.668689400, "United States of America", "Heart of West Michigan United Way<Br />Grand Rapids MI <br />URL: <a href='http://www.facebook.com/hwmuw' target='_blank'>www.facebook.com/hwmuw</a><br/>Heart of West Michigan will be hosting an Outreach Program meal-packing event titled Food from the Heart. \nThe goal of the event will be to engage 250 volunteers in putting together 70,000 total meal servings for local pantries. Meals will be sent to the local Feeding America West Michigan Food Bank &amp; from there, further distributed throughout the community.");
 	 
@@ -474,15 +547,23 @@ function placeMarkers()
 	 
 			createMarker(43.052979800, -87.913151200, "United States of America", "United Way of Greater Milwaukee & Waukesha County<Br />Milwaukee WI <br />URL: <a href='http://www.unitedwaygmwc.org/Emerging-Leaders' target='_blank'>www.unitedwaygmwc.org/Emerging-Leaders</a><br/>Education focused volunteer activities in partnership with agency program partners and a community school partner. Activities will include a Born Learning Trail.");
 	 
-			createMarker(43.148105100, -93.163440400, "United States of America", "United Way of North Central Iowa<Br />Mason City IA <br />URL: <a href='http://www.unitedwaynci.org/' target='_blank'>www.unitedwaynci.org/</a>");
+			createMarker(43.092277000, -89.352601500, "United States of America", "United Way of Dane County, Inc.<Br />Madison WI <br />URL: <a href='http://events.r20.constantcontact.com/register/event?oeidk=a07ecqarihecc7ac9eb&amp;llr=cdgdvycab' target='_blank'>events.r20.constantcontact.com/register/event?oeidk=a07ecqarihecc7ac9eb&amp;llr=cdgdvycab</a><br/>United Way of Dane County\'s Leadership Giving groups will participate in a Day of Action volunteer opportunity to support a program in alignment with our Born Learning initiative called Books for Babies.\n\nVolunteers will have the opportunity to network with members of the Born Learning Delegation and hear a brief presentation over lunch about their progress to date.\n\nThe event and presentation will begin at 11:30 am, followed by preparing Books for Babies kits at 12:00 pm. The goal of the Books for Babies initiative is to build a stronger community by providing baby\'s first book and parent resources to every baby born in Dane County. The kits are distributed at birthing centers and include a book for the child, tips for parents on how to read and engage with children in their first five years, and a list of Dane County resources and other help available to young families in our community.");
+	 
+			createMarker(43.148105100, -93.163440400, "United States of America", "United Way of North Central Iowa<Br />Mason City IA <br />URL: <a href='http://www.unitedwaynci.org/' target='_blank'>www.unitedwaynci.org/</a><br/>We are doing a Diaper Drive throughout our region, which in our rural area is an 8 county area. Three of our banks are drop off locations and we are doing a live radio remote on the Day of Action to wrap up the drive and presenting the diapers to the local organization who will be distributing the diapers.");
+	 
+			createMarker(43.256558500, -79.861257400, "Canada", "United Way Burlington & Greater Hamilton<Br />Hamilton ON Canada<br />URL: www.uwaybh.ca<br/>We are collaborating with North Hamilton Community Health Centre and the Keith Community HUB to build a raised vegetable garden.  Planting will take place earlier than June 21st but a opening celebration with the volunteers and the community will take place that day.");
 	 
 			createMarker(43.367974800, -124.215297700, "United States of America", "United Way of Southwestern Oregon<Br />Coos Bay OR <br />URL: <a href='http://unitedwayswo.org' target='_blank'>unitedwayswo.org</a><br/>We will start promoting the Day of Action on our website and Facebook page, re-post events in other areas.");
 	 
+			createMarker(43.437079800, -79.696661700, "Canada", "United Way Oakville<Br />Oakville ON Canada<br />URL: <a href='http://www.uwoakville.org' target='_blank'>www.uwoakville.org</a><br/>tree planting along the creek, mulching existing trees and naturalized areas, invasive species removal, and participating in some guided nature hikes. All these activities should provide plenty to do for 135 volunteers throughout the two work shifts, perhaps with a 9am start and 1pm start.");
+	 
 			createMarker(43.573761200, -116.213642300, "United States of America", "United Way of Treasure Valley, Inc.<Br />Boise ID <br />URL: not available yet<br/>We will be hosting our 2nd annual statewide United Way Children\'s Book Drive. All seven United Way offices in Idaho will be working together on this important literacy project. Our effort is to reduce summer slide by collecting 100,000+ books for children who do not own their own books. Last year we collected about 73,000 books.");
 	 
-			createMarker(43.599532300, -83.887943300, "United States of America", "United Way of Bay County<Br />Bay City MI <br />URL: <a href='http://www.unitedwaybaycounty.org' target='_blank'>www.unitedwaybaycounty.org</a><br/>Beautification project at one middle-school and one elementary school; planting of the Community Garden.");
+			createMarker(43.599532300, -83.887943300, "United States of America", "United Way of Bay County<Br />Bay City MI <br />URL: <a href='http://www.unitedwaybaycounty.org' target='_blank'>www.unitedwaybaycounty.org</a><br/>Beautification project at two elementary schools; planting of the Community Garden, and a ramp build.");
 	 
-			createMarker(43.656688500, -70.255129400, "United States of America", "United Way of Greater Portland<Br />Portland ME <br />URL: <a href='http://www.unitedwaygp.org/join-us/volunteer/' target='_blank'>www.unitedwaygp.org/join-us/volunteer/</a><br/>We\'re still in the planning stages, but so far, will host a training for our summer reading programs. We may pair this with a hands-on project as well.");
+			createMarker(43.648333400, -79.375810800, "Canada", "United Way Toronto & York Region<Br />Toronto ON Canada<br />URL: <a href='http://www.facebook.com/unitedwaytyr' target='_blank'>www.facebook.com/unitedwaytyr</a><br/>Summer School Success Packs  - Volunteers will reach out to their networks to collect, pack and bring in school and art supplies for kids to United Way Toronto &amp; York Region.  Together, volunteers will put together Summer School Success Packs including new or gently used school and art supplies, create craft or literacy kits and donate them to kids programs in the community.");
+	 
+			createMarker(43.656688500, -70.255129400, "United States of America", "United Way of Greater Portland<Br />Portland ME <br />URL: <a href='http://www.unitedwaygp.org/join-us/volunteer/' target='_blank'>www.unitedwaygp.org/join-us/volunteer/</a><br/>We\'re hosting a training for volunteers for our summer reading programs. In addition, we are launching Community-wide goals.");
 	 
 			createMarker(43.723629900, -98.014918800, "United States of America", "Char-Em United Way<Br />Petoskey MI <br />URL: <a href='http://www.facebook.com/charemunitedway/?fref=ts' target='_blank'>www.facebook.com/charemunitedway/?fref=ts</a><br/>Create literacy kits and have volunteers in the community at a variety of Preschools and libraries reading to children and providing a literacy kit to each.");
 	 
@@ -500,13 +581,19 @@ function placeMarkers()
 	 
 			createMarker(44.213698100, -70.541823700, "United States of America", "United Way of Oxford County, Inc.<Br />South Paris ME <br />URL: <a href='http://www.facebook.com/United-Way-of-Oxford-County-Maine-96942036596/' target='_blank'>www.facebook.com/United-Way-of-Oxford-County-Maine-96942036596/</a><br/>United Way of Oxford County will be hosting its 1st Annual Diaper Drive beginning on United Way\'s Day of Action and running through July 1st. United Way of Oxford County will be engaging area businesses to act as collection sites and encourage the community to bring donations in to a site near them.");
 	 
+			createMarker(44.361772900, -98.214517600, "United States of America", "United Way Heartland Region<Br />Huron SD <br />URL: united way heartland region facebook<br/>We conduct a gently used book drive and community volunteers and board members spend time reading with the 620 students in our summer school program.  Each student is then given a book to keep.");
+	 
 			createMarker(44.451203800, 26.133890000, "Romania", "United Way Romania<Br />Bucharest Romania<br />URL: <a href='http://www.facebook.com/UnitedWayRomania/?fref=ts' target='_blank'>www.facebook.com/UnitedWayRomania/?fref=ts</a><br/>The subject of this year DoA is food.");
 	 
 			createMarker(44.492756000, -73.118371000, "United States of America", "United Ways of Vermont<Br />Essex Junction VT <br />URL: <a href='http://www.facebook.com/uwsvtbennington' target='_blank'>www.facebook.com/uwsvtbennington</a><br/>Outreach, visibility, encouraging participation and involvement for future events");
 	 
+			createMarker(44.514127300, -88.014031000, "United States of America", "Brown County United Way<Br />Green Bay WI <br />URL: <a href='http://www.browncountyunitedway.org/' target='_blank'>www.browncountyunitedway.org/</a><br/>Partner with a school to hold a weekend backpack food program.");
+	 
 			createMarker(44.541949300, -69.655479500, "United States of America", "United Way of Mid-Maine<Br />Waterville ME <br />URL: <a href='http://www.uwmm.org' target='_blank'>www.uwmm.org</a><br/>On-the-ground event: Diaper Drive in coordination with 2 other United Ways in Maine: United Way of Oxford County and United Way of Tri-Valley Area.\nFocused online promotion and communications about the value of taking action/ the value of volunteering.");
 	 
 			createMarker(44.589852200, -123.277963500, "United States of America", "United Way of Benton & Lincoln Counties<Br />Corvallis OR <br />URL: <a href='http://www.facebook.com/UnitedWayBLC/?fref=ts' target='_blank'>www.facebook.com/UnitedWayBLC/?fref=ts</a><br/>Volunteers are gathering at two separate locations in Lincoln City and Newport, OR to assemble \"Go Bags.\"  The gallon-size bags are filled with essentials for law enforcement and non-profit agencies to hand out to the homeless community and people in need along the coastal region.  Bags are filled with bottled water, poncho, food and hygiene items.");
+	 
+			createMarker(44.666687000, -90.173776000, "United States of America", "Marshfield Area United Way<Br />Marshfield WI <br />URL: <a href='http://www.marshfieldareaunitedway.org/bookswap.html' target='_blank'>www.marshfieldareaunitedway.org/bookswap.html</a><br/>We will be having our fourth annual FREE Children\'s Book Swap where students are able to exchange books they no longer read for new \"used\" ones.");
 	 
 			createMarker(44.758691900, -85.623757600, "United States of America", "United Way of Northwest Michigan<Br />Traverse City MI <br />URL: <a href='http://unitedwaynwmi.org/our-work/days-of-action/' target='_blank'>unitedwaynwmi.org/our-work/days-of-action/</a><br/>United Way of NWMI will host literacy events in 5 counties to help support local youth and families and prevent summer learning loss.");
 	 
@@ -519,6 +606,8 @@ function placeMarkers()
 			createMarker(45.995281800, -112.513177300, "United States of America", "United Way of Butte and Anaconda<Br />Butte MT <br />URL: <a href='http://uwbutteanaconda.org and facebook.com/uwbutteanaconda' target='_blank'>uwbutteanaconda.org and facebook.com/uwbutteanaconda</a><br/>\"Sweat equity projects for Senior Citizens. Corporate employees and individuals in the community will be asked to volunteer.");
 	 
 			createMarker(46.497284700, -84.347495600, "United States of America", "United Way of the Eastern Upper Peninsula<Br />Sault Sainte Marie MI <br />URL: <a href='http://www.facebook.com/UnitedWayEUP' target='_blank'>www.facebook.com/UnitedWayEUP</a>");
+	 
+			createMarker(46.557751500, -87.417485000, "United States of America", "United Way of Marquette County<Br />Marquette MI <br />URL: <a href='http://www.facebook.com/uwmqt/' target='_blank'>www.facebook.com/uwmqt/</a><br/>Promote local volunteer opportunities in our community through our Facebook page.");
 	 
 			createMarker(46.782279600, -92.103710500, "United States of America", "Head of the Lakes United Way<Br />Duluth MN <br />URL: <a href='http://www.facebook.com/hlunitedway/?fref=ts' target='_blank'>www.facebook.com/hlunitedway/?fref=ts</a><br/>Agencies submit projects to be completed on June 22. We work to recruit teams to complete those projects.");
 	 
@@ -540,11 +629,27 @@ function placeMarkers()
 	 
 			createMarker(48.211614100, -101.298140700, "United States of America", "Souris Valley United Way<Br />Minot ND <br />URL: <a href='http://www.facebook.com/svunitedway' target='_blank'>www.facebook.com/svunitedway</a><br/>The 4th Annual Community Shower will be held the week of 06/20. Participating businesses will be drop-off locations for donations of diapers, baby items, and adult care items. The community can also make donations at a mall event on June 23rd. Items will be disbursed on June 24th to local food pantries and shelters..");
 	 
-			createMarker(52.248154600, 21.104753200, "Poland", "United Way Polska<Br />Warsaw Poland<br />URL: www.unitedway.pl");
+			createMarker(48.863181100, 2.294508100, "France", "United Way Tocqueville Association<Br />Paris France<br />URL: @uw_France (twitter)<br/>United Way Tocqueville will participate into an annual event for the UPS France managers. It will present its pilote program towards the integration of Refugees in France and organize a collaborative activity by mobilizing UPS managers.");
+	 
+			createMarker(49.165883600, -123.940064700, "Canada", "United Way Central & Northern Vancouver Island<Br />Nanaimo BC Canada<br />URL: <a href='http://www.facebook.com/UWCNVI/' target='_blank'>www.facebook.com/UWCNVI/</a><br/>We plan to host several Days of Caring this week as part of our Day of Action Week. Opportunities that we are working on include light yard work, help with clothing donations, and serving meals.");
+	 
+			createMarker(49.255216000, -123.000439000, "Canada", "United Way of the Lower Mainland<Br />Burnaby BC Canada<br />URL: www.uwlm.ca<br/>We will promote an online poverty simulation tool to bring awareness among our volunteers");
+	 
+			createMarker(49.887470500, -119.492331900, "Canada", "United Way Central and South Okanagan/Similkameen<Br />Kelowna BC Canada<br />URL: <a href='http://unitedwaycso.com/event/ubcopovertysimulation/' target='_blank'>unitedwaycso.com/event/ubcopovertysimulation/</a><br/>UBC Okanagan Student Union and United Way CSO presents LIving on the Edge, a poverty simulation.");
+	 
+			createMarker(49.901650900, -97.137025800, "Canada", "United Way Winnipeg<Br />Winnipeg MB Canada<br />URL: <a href='http://www.twitter.com/UnitedWayWpg' target='_blank'>www.twitter.com/UnitedWayWpg</a><br/>We plan to align with the activities around Winnipeg and with our agency partners related to National Aboriginal Day. Details to be confirmed.");
+	 
+			createMarker(50.455815100, -104.611057300, "Canada", "United Way Regina<Br />Regina SK Canada<br />URL: <a href='http://www.facebook.com/UnitedWayRegina/' target='_blank'>www.facebook.com/UnitedWayRegina/</a><br/>Because it\'s National Aboriginal Day in Canada, we will combine cultural awareness and addressing summer learning loss. We will mobilize our community to build as many literacy kits as possible. The kits will be shared with local children (primarily birth to Age 8) and spread the message of the importance of reading proficiently by third grade.");
+	 
+			createMarker(50.675761100, -120.336997300, "Canada", "United Way Thompson Nicola Cariboo<Br />Kamloops BC Canada<br />URL: <a href='http://www.facebook.com/unitedwaytnc/?pnref=story' target='_blank'>www.facebook.com/unitedwaytnc/?pnref=story</a><br/>June 21st in Canada is also Aboriginal Day. Williams Lake, BC is one of the communities in our region that is surrounded by 7 Aboriginal reserves and 15 Aboriginal bands. This has created some friction and interesting social issues for all citizens in the region. With the recent Truth and Reconciliation Commission and subsequent recommendations, we would like to support Aboriginal day activities for our Day of Action. We specifically would like to rally non-conventional volunteers, Caucasian primarily, to support and be involved with the event.");
+	 
+			createMarker(52.248154600, 21.104753200, "Poland", "United Way Polska<Br />Warsaw Poland<br />URL: www.unitedway.pl<br/>In this edition we organise sport-educational Olympics dedicated to children which come from families in difficult financial or social sitaution. The sport-educational Olympics is also dedicated to children with disabilities (in majority physical and intelectual). The aim of sport-educational Olympics is an integration of children with disabilities with children from Praga district and United Way Poland volunteers. \nThe partners of our event from the business sector is Société Générale. Whereas the Warsaw International Triathlon Club is a sports partner of the event (\"International Sports Training Partner\"). Athletes from Warsaw International Triathlon Club will guide selection competitions for the children and employees of Société Générale will be involved in the organization of classes and will be painting the fence together with the kids .");
 	 
 			createMarker(61.583009300, -149.451257600, "United States of America", "United Way of Matanuska-Susitna Borough<Br />Wasilla AK <br />URL: <a href='http://www.facebook.com/unitedwaymatsu/?fref=ts' target='_blank'>www.facebook.com/unitedwaymatsu/?fref=ts</a><br/>Each year, United Way of Mat-Su partners with the Mat-Su Borough School District to plan a one-day event called \"Stuff the Bus.\" We bring together volunteers and sponsors to fill backpacks with back-to-school supplies for students in need. Last year, we filled over 600 backpacks and distributed them throughout the Borough!");
 	
 		}
+
+
 placeMarkers();
 
 }
